@@ -1,0 +1,62 @@
+{
+  "hotel": {
+    "name": "Harbor Light Hotel",
+    "address": "42 Marina Avenue, Bayview District, Chennai",
+    "check_in": "Check-in starts at 3:00 PM. Early check-in may be available on request and is subject to room availability.",
+    "check_out": "Check-out is by 11:00 AM. Late check-out can be requested at reception and may include an additional charge.",
+    "breakfast": "Breakfast is served daily from 7:00 AM to 10:30 AM in the Seabreeze Restaurant. Continental breakfast is included with Deluxe, Family, and Suite bookings. Standard rooms can add breakfast for 900 INR per guest.",
+    "wifi": "Complimentary high-speed Wi-Fi is available in all guest rooms, meeting spaces, and public areas.",
+    "parking": "Self-parking is available for 500 INR per night. Valet parking is available for 900 INR per night.",
+    "pool": "The outdoor pool is open from 6:00 AM to 9:00 PM. Children under 14 must be accompanied by an adult.",
+    "gym": "The fitness center is open 24 hours for registered guests using their room key.",
+    "restaurant": "Seabreeze Restaurant serves breakfast from 7:00 AM to 10:30 AM, lunch from 12:30 PM to 3:00 PM, snacks from 4:00 PM to 6:00 PM, and dinner from 7:00 PM to 10:30 PM. Room service is available from 6:30 AM to 11:00 PM.",
+    "reception": "Reception is staffed 24 hours a day. Guests can call extension 0 from any hotel phone.",
+    "pet_policy": "Pets are not allowed, except certified service animals."
+  },
+  "rooms": [
+    {
+      "name": "Standard Room",
+      "type": "Standard",
+      "description": "A quiet room for one or two guests with essential comforts.",
+      "max_guests": 2,
+      "bed_config": "1 queen bed",
+      "price": 8500,
+      "amenities": ["Wi-Fi", "work desk", "rain shower", "tea and coffee"]
+    },
+    {
+      "name": "Deluxe Room",
+      "type": "Deluxe",
+      "description": "A larger room for up to three guests with a marina-facing sitting area.",
+      "max_guests": 3,
+      "bed_config": "1 king bed and 1 rollaway bed on request",
+      "price": 11500,
+      "amenities": ["Wi-Fi", "breakfast included", "minibar", "smart TV", "sitting area"]
+    },
+    {
+      "name": "Family Room",
+      "type": "Family",
+      "description": "A spacious room designed for families or small groups.",
+      "max_guests": 4,
+      "bed_config": "2 queen beds",
+      "price": 14500,
+      "amenities": ["Wi-Fi", "breakfast included", "sofa", "two vanities", "child-friendly toiletries"]
+    },
+    {
+      "name": "Harbor Suite",
+      "type": "Suite",
+      "description": "A premium suite with a separate living room and harbor view.",
+      "max_guests": 4,
+      "bed_config": "1 king bed and 1 sofa bed",
+      "price": 22000,
+      "amenities": ["Wi-Fi", "breakfast included", "living room", "bathtub", "harbor view", "espresso machine"]
+    }
+  ],
+  "policies": {
+    "cancellation": "Flexible bookings can be cancelled without charge until 24 hours before arrival. Late cancellations and no-shows are charged the first night's room rate. Non-refundable rates cannot be cancelled or changed.",
+    "check_in": "Guests must present a government-issued photo ID and booking confirmation at check-in.",
+    "check_out": "Guests should settle incidental charges before check-out. Express check-out is available.",
+    "extra_guests": "Extra guests must be declared before arrival. Rollaway beds are available only in Deluxe rooms and Suites, subject to availability.",
+    "children": "Children under 6 stay free when using existing bedding. Cribs are available on request at no extra charge.",
+    "pets": "Pets are not allowed, except certified service animals."
+  }
+}

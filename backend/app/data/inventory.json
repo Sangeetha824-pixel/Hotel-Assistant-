@@ -1,0 +1,6 @@
+[
+  { "room_type": "Standard", "available": true },
+  { "room_type": "Deluxe", "available": true },
+  { "room_type": "Family", "available": false },
+  { "room_type": "Suite", "available": true }
+]

@@ -31,6 +31,26 @@ hotel-guest-assistant/
 └── .gitignore
 ```
 
+## Screenshots
+
+![Project screenshot 1](Screenshots/1.png)
+![Project screenshot 2](Screenshots/2.png)
+![Project screenshot 3](Screenshots/3.png)
+![Project screenshot 4](Screenshots/4.png)
+![Project screenshot 5](Screenshots/5.png)
+![Project screenshot 6](Screenshots/6.png)
+![Project screenshot 7](Screenshots/7.png)
+![Project screenshot 8](Screenshots/8.png)
+![Project screenshot 9](Screenshots/9.png)
+![Project screenshot 10](Screenshots/10.png)
+![Project screenshot 11](Screenshots/11.png)
+![Project screenshot 12](Screenshots/12.jpg)
+![Project screenshot 13](Screenshots/13.png)
+![Project screenshot 14](Screenshots/14.png)
+![Project screenshot 15](Screenshots/15.png)
+![Project screenshot 16](Screenshots/16.png)
+![Project screenshot 17](Screenshots/Screenshot%202026-09-17%20231758.png)
+
 ## Setup
 
 Backend:

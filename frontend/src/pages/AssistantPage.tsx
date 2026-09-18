@@ -21,6 +21,14 @@ const welcome: ChatMessageType = {
   timestamp: new Date().toISOString(),
 };
 const STORAGE_KEY = "simplotel-assistant-state";
+const chatToolAttributes = {
+  toolname: "ask_hotel_assistant",
+  tooldescription:
+    "Ask Simplotel a hotel question about rooms, amenities, menus, policies, or availability follow-ups.",
+};
+const messageToolAttributes = {
+  toolparamdescription: "The guest's question or follow-up message for the hotel assistant.",
+};
 
 type StoredAssistantState = {
   messages: ChatMessageType[];
@@ -202,10 +210,13 @@ export function AssistantPage() {
                 </div>
               )}
               <form
+                {...chatToolAttributes}
                 onSubmit={onSubmit}
                 className="mx-auto flex w-full max-w-4xl items-center gap-2 rounded-full bg-white px-4 py-2 shadow-sm ring-1 ring-stone-200"
               >
                 <input
+                  {...messageToolAttributes}
+                  name="message"
                   value={input}
                   disabled={isLoading}
                   onChange={(event) => setInput(event.target.value)}

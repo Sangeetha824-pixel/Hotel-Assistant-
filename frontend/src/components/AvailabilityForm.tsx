@@ -8,6 +8,21 @@ type Props = {
   onSearch: (payload: AvailabilityRequest) => void;
 };
 
+const availabilityToolAttributes = {
+  toolname: "check_room_availability",
+  tooldescription:
+    "Check Simplotel room availability for a guest by check-in date, check-out date, and number of guests.",
+};
+const checkInToolAttributes = {
+  toolparamdescription: "The guest's arrival date in YYYY-MM-DD format.",
+};
+const checkOutToolAttributes = {
+  toolparamdescription: "The guest's departure date in YYYY-MM-DD format. It must be after check-in.",
+};
+const guestsToolAttributes = {
+  toolparamdescription: "The number of guests who need a suitable room.",
+};
+
 export function AvailabilityForm({ disabled, onSearch }: Props) {
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
@@ -35,7 +50,11 @@ export function AvailabilityForm({ disabled, onSearch }: Props) {
   }
 
   return (
-    <form onSubmit={submit} className="w-full max-w-full rounded-2xl bg-white p-4 shadow-sm">
+    <form
+      {...availabilityToolAttributes}
+      onSubmit={submit}
+      className="w-full max-w-full rounded-2xl bg-white p-4 shadow-sm"
+    >
       <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-[#111331]">
         <CalendarDays size={17} />
         Check room availability
@@ -44,6 +63,8 @@ export function AvailabilityForm({ disabled, onSearch }: Props) {
         <label className="block text-xs font-semibold uppercase tracking-wide text-stone-500">
           Check-in
           <input
+            {...checkInToolAttributes}
+            name="check_in"
             type="date"
             value={checkIn}
             disabled={disabled}
@@ -54,6 +75,8 @@ export function AvailabilityForm({ disabled, onSearch }: Props) {
         <label className="block text-xs font-semibold uppercase tracking-wide text-stone-500">
           Check-out
           <input
+            {...checkOutToolAttributes}
+            name="check_out"
             type="date"
             value={checkOut}
             disabled={disabled}
@@ -64,6 +87,8 @@ export function AvailabilityForm({ disabled, onSearch }: Props) {
         <label className="block text-xs font-semibold uppercase tracking-wide text-stone-500">
           Guests
           <input
+            {...guestsToolAttributes}
+            name="guests"
             type="number"
             min={1}
             value={guests}

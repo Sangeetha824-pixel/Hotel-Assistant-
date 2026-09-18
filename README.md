@@ -2,6 +2,8 @@
 
 A scoped hotel website chat assistant for guests who need fast answers about rooms, amenities, policies, and availability. The assistant keeps visible conversation context, returns auditable sources, and falls back safely when information is missing or a service fails. The product goal is simple: reduce repetitive front-desk questions while keeping booking-critical answers grounded and predictable.
 
+Live demo: [Simplotel AI Concierge](https://simplotel-assistant.onrender.com/)
+
 ## Architecture
 
 ```text

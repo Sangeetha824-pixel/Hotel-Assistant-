@@ -1,7 +1,6 @@
-import Mic from "lucide-react/dist/esm/icons/mic.js";
 import Send from "lucide-react/dist/esm/icons/send.js";
 import WifiOff from "lucide-react/dist/esm/icons/wifi-off.js";
-import { FormEvent, lazy, Suspense, useCallback, useMemo, useRef, useState } from "react";
+import { FormEvent, lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AvailabilityForm } from "../components/AvailabilityForm";
 import { ChatMessage } from "../components/ChatMessage";
 import { Header } from "../components/Header";
@@ -40,6 +39,7 @@ export function AssistantPage() {
   const [lastAction, setLastAction] = useState<(() => void) | null>(null);
   const [availability, setAvailability] = useState<AvailabilityResponse | null>(null);
   const abortRef = useRef<AbortController | null>(null);
+  const messageEndRef = useRef<HTMLDivElement | null>(null);
 
   const conversation = useMemo(
     () =>
@@ -48,6 +48,14 @@ export function AssistantPage() {
         .map((message) => ({ role: message.role, content: message.content })),
     [messages],
   );
+
+  useEffect(() => {
+    messageEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+  }, [messages, isLoading]);
+
+  useEffect(() => {
+    return () => abortRef.current?.abort();
+  }, []);
 
   const submitChat = useCallback(async (text: string) => {
     const trimmed = text.trim();
@@ -61,6 +69,7 @@ export function AssistantPage() {
     setInput("");
     setError("");
     setIsLoading(true);
+    abortRef.current?.abort();
     abortRef.current = new AbortController();
     setLastAction(() => () => submitChat(trimmed));
 
@@ -91,6 +100,7 @@ export function AssistantPage() {
     setError("");
     setIsLoading(true);
     setAvailability(null);
+    abortRef.current?.abort();
     abortRef.current = new AbortController();
     setLastAction(() => () => submitAvailability(payload));
 
@@ -136,6 +146,7 @@ export function AssistantPage() {
                 </div>
               ))}
               {isLoading && <TypingIndicator />}
+              <div ref={messageEndRef} />
             </div>
 
             <div className="min-w-0 space-y-3 border-t border-stone-200 bg-[#f9f8f2] px-4 pb-5 pt-4 sm:px-8 lg:px-10">
@@ -164,9 +175,6 @@ export function AssistantPage() {
                   placeholder="How may I help you?"
                   className="min-w-0 flex-1 bg-transparent px-1 py-3 text-sm outline-none sm:text-base"
                 />
-                <button type="button" className="grid h-9 w-9 shrink-0 place-items-center text-[#03042f]" aria-label="Voice input">
-                  <Mic size={19} />
-                </button>
                 <button
                   type="submit"
                   disabled={isLoading || input.trim().length === 0}

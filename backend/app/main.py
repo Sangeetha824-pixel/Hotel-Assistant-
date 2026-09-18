@@ -1,9 +1,12 @@
 import logging
+import os
+from pathlib import Path
 
 from fastapi import FastAPI
 from fastapi.openapi.docs import get_swagger_ui_html
-from fastapi.responses import HTMLResponse
+from fastapi.responses import FileResponse, HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 from app.api.routes import router
 from app.core.config import get_settings
@@ -12,6 +15,8 @@ logging.basicConfig(level=logging.INFO)
 
 settings = get_settings()
 app = FastAPI(title=settings.app_name, docs_url=None)
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+FRONTEND_DIST = Path(os.getenv("FRONTEND_DIST_DIR", PROJECT_ROOT / "frontend" / "dist"))
 
 app.add_middleware(
     CORSMiddleware,
@@ -94,3 +99,24 @@ async def custom_docs() -> HTMLResponse:
 @app.get("/health")
 async def health() -> dict[str, str]:
     return {"status": "ok"}
+
+
+if FRONTEND_DIST.exists():
+    assets_dir = FRONTEND_DIST / "assets"
+    if assets_dir.exists():
+        app.mount("/assets", StaticFiles(directory=assets_dir), name="assets")
+
+    @app.get("/llms.txt", include_in_schema=False)
+    async def llms_txt() -> FileResponse:
+        return FileResponse(FRONTEND_DIST / "llms.txt", media_type="text/plain")
+
+    @app.get("/robots.txt", include_in_schema=False)
+    async def robots_txt() -> FileResponse:
+        return FileResponse(FRONTEND_DIST / "robots.txt", media_type="text/plain")
+
+    @app.get("/{full_path:path}", include_in_schema=False)
+    async def serve_frontend(full_path: str) -> FileResponse:
+        requested_file = FRONTEND_DIST / full_path
+        if full_path and requested_file.is_file():
+            return FileResponse(requested_file)
+        return FileResponse(FRONTEND_DIST / "index.html")

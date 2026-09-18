@@ -1,6 +1,6 @@
 import type { AvailabilityRequest, AvailabilityResponse, ChatResponse, ConversationMessage } from "../types/api";
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:8000";
+const API_BASE = import.meta.env.VITE_API_BASE_URL ?? (import.meta.env.DEV ? "http://localhost:8000" : "");
 const REQUEST_TIMEOUT_MS = 12_000;
 const RETRYABLE_STATUS_CODES = new Set([408, 429, 500, 502, 503, 504]);
 

@@ -89,6 +89,46 @@ Environment variables:
 - `LLM_API_KEY`: reserved for a real provider, not required for the mock
 - `LLM_MODEL`: model/provider label
 
+## Docker Deployment
+
+The project includes a single-container Docker deployment. The Docker image builds the React/Vite frontend, copies the static files into the Python runtime image, and serves both the frontend and FastAPI API from one container.
+
+Build locally:
+
+```bash
+docker build -t hotel-guest-assistant .
+```
+
+Run locally:
+
+```bash
+docker run --rm -p 8000:8000 -e LLM_PROVIDER=mock -e LLM_MODEL=mock-grounded-assistant hotel-guest-assistant
+```
+
+Open:
+
+- App: `http://localhost:8000`
+- Health: `http://localhost:8000/health`
+- API docs: `http://localhost:8000/docs`
+- Agent summary: `http://localhost:8000/llms.txt`
+
+Cloud deployment with Docker:
+
+1. Push this repository to GitHub.
+2. Create a Docker/Web Service on Render, Railway, Fly.io, Google Cloud Run, or another container host.
+3. Use the repository root as the build context.
+4. Let the platform build from `Dockerfile`.
+5. Set environment variables:
+
+```text
+LLM_PROVIDER=mock
+LLM_MODEL=mock-grounded-assistant
+```
+
+Most cloud platforms provide `PORT` automatically. The container start command already reads `${PORT:-8000}`, so it works locally and in cloud.
+
+For Docker production mode, the frontend calls same-origin `/api/...`, so no public API URL is needed in `VITE_API_BASE_URL`.
+
 ## API
 
 Chat:

@@ -21,6 +21,7 @@ function imageFor(room: RoomAvailability) {
 
 export function AvailabilityResults({ result }: Props) {
   const [selectedRoom, setSelectedRoom] = useState<RoomAvailability | null>(null);
+  const hasRooms = result.rooms.length > 0;
 
   if (selectedRoom) {
     return (
@@ -83,6 +84,11 @@ export function AvailabilityResults({ result }: Props) {
       <p className="rounded-2xl rounded-bl-sm bg-white px-4 py-3 text-sm font-medium text-[#111331] shadow-sm">
         {result.message}
       </p>
+      {!hasRooms && (
+        <div className="rounded-2xl bg-white p-4 text-sm leading-6 text-stone-700 shadow-sm">
+          No suitable rooms are available for this search. Try fewer guests or different dates.
+        </div>
+      )}
       <div className="grid w-full max-w-full gap-3 md:grid-cols-2 lg:grid-cols-1">
         {result.rooms.map((room) => (
           <article key={room.type} className="min-w-0 overflow-hidden rounded-2xl bg-white shadow-sm">

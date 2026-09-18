@@ -20,6 +20,12 @@ const welcome: ChatMessageType = {
   content: "Welcome! I'm Simplotel, your concierge assistant. Select an option from the list or type in a message to get started.",
   timestamp: new Date().toISOString(),
 };
+const STORAGE_KEY = "simplotel-assistant-state";
+
+type StoredAssistantState = {
+  messages: ChatMessageType[];
+  availability: AvailabilityResponse | null;
+};
 
 function makeMessage(role: "user" | "assistant", content: string, extra: Partial<ChatMessageType> = {}): ChatMessageType {
   return {
@@ -31,15 +37,38 @@ function makeMessage(role: "user" | "assistant", content: string, extra: Partial
   };
 }
 
+function loadStoredState(): StoredAssistantState {
+  if (typeof window === "undefined") {
+    return { messages: [welcome], availability: null };
+  }
+
+  try {
+    const rawState = window.localStorage.getItem(STORAGE_KEY);
+    if (!rawState) {
+      return { messages: [welcome], availability: null };
+    }
+
+    const parsed = JSON.parse(rawState) as Partial<StoredAssistantState>;
+    return {
+      messages: Array.isArray(parsed.messages) && parsed.messages.length > 0 ? parsed.messages : [welcome],
+      availability: parsed.availability ?? null,
+    };
+  } catch {
+    return { messages: [welcome], availability: null };
+  }
+}
+
 export function AssistantPage() {
-  const [messages, setMessages] = useState<ChatMessageType[]>([welcome]);
+  const initialState = useMemo(() => loadStoredState(), []);
+  const [messages, setMessages] = useState<ChatMessageType[]>(initialState.messages);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [lastAction, setLastAction] = useState<(() => void) | null>(null);
-  const [availability, setAvailability] = useState<AvailabilityResponse | null>(null);
+  const [availability, setAvailability] = useState<AvailabilityResponse | null>(initialState.availability);
   const abortRef = useRef<AbortController | null>(null);
   const messageEndRef = useRef<HTMLDivElement | null>(null);
+  const availabilityResultsRef = useRef<HTMLDivElement | null>(null);
 
   const conversation = useMemo(
     () =>
@@ -56,6 +85,14 @@ export function AssistantPage() {
   useEffect(() => {
     return () => abortRef.current?.abort();
   }, []);
+
+  useEffect(() => {
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify({ messages, availability }));
+  }, [messages, availability]);
+
+  useEffect(() => {
+    availabilityResultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, [availability]);
 
   const submitChat = useCallback(async (text: string) => {
     const trimmed = text.trim();
@@ -190,9 +227,11 @@ export function AssistantPage() {
           <aside className="min-w-0 space-y-4 overflow-y-auto overflow-x-hidden border-t border-stone-200 bg-[#f3efe4] px-4 py-5 sm:px-8 lg:border-l lg:border-t-0 lg:px-5">
             <AvailabilityForm disabled={isLoading} onSearch={submitAvailability} />
             {availability && (
-              <Suspense fallback={null}>
-                <AvailabilityResults result={availability} />
-              </Suspense>
+              <div ref={availabilityResultsRef}>
+                <Suspense fallback={null}>
+                  <AvailabilityResults result={availability} />
+                </Suspense>
+              </div>
             )}
           </aside>
         </section>

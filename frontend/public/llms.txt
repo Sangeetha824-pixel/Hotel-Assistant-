@@ -1,0 +1,26 @@
+# Simplotel AI Concierge Assistant
+
+Simplotel is a hotel guest assistant web app. Guests use it to ask grounded hotel questions, view menu and room image cards, and check room availability.
+
+Main capabilities:
+- Answer hotel questions about rooms, amenities, policies, breakfast, pool, parking, Wi-Fi, pets, restaurant, gym, reception, and cancellation rules.
+- Keep visible conversation context for follow-up questions.
+- Return source-grounded answers from a local hotel knowledge base.
+- Check room availability through deterministic backend logic, not through an LLM.
+- Show room cards with name, type, capacity, nightly price, availability, features, and images.
+- Show breakfast, lunch, snacks, and dinner menu cards with images.
+- Provide safe fallback responses for unsupported questions or backend failures.
+
+Important frontend route:
+- / : Main Simplotel AI Concierge interface.
+
+Backend API endpoints:
+- POST /api/chat : Sends a guest message and conversation history, returns answer, intent, and sources.
+- POST /api/availability : Sends check-in date, check-out date, and guest count, returns matching room availability.
+- GET /health : Backend health check.
+
+Implementation notes:
+- The frontend never calls an LLM directly and contains no API keys.
+- The backend owns intent routing, knowledge-base retrieval, LLM rendering, and availability checks.
+- The local JSON knowledge base is the source of truth for hotel facts.
+- Availability is deterministic and independently testable.

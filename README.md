@@ -16,6 +16,8 @@ Guest
 
 The frontend never calls an LLM and contains no API keys. FastAPI owns intent routing, knowledge-base retrieval, deterministic availability checks, and the swappable LLM service module.
 
+The frontend also publishes `frontend/public/llms.txt` so Lighthouse's experimental Agentic Browsing checks and AI agents have a concise machine-readable summary of the app's purpose, routes, and API surface.
+
 ## Project Structure
 
 ```text
@@ -152,12 +154,12 @@ Actual latest run:
 platform win32 -- Python 3.12.14, pytest-8.3.4, pluggy-1.6.0
 rootdir: C:\Users\ELCOT\OneDrive\Documents\ChatGPT\Hotel Assistant\backend
 plugins: anyio-4.15.1, asyncio-0.25.2
-collected 15 items
+collected 17 items
 
-tests\test_api.py ............                                           [ 80%]
+tests\test_api.py ..............                                         [ 82%]
 tests\test_availability.py ...                                           [100%]
 
-======================== 15 passed, 1 warning in 2.56s ========================
+======================== 17 passed, 1 warning in 2.71s ========================
 ```
 
 Covered cases include check-in, pool, breakfast, room suitability, cancellation policy, availability happy path, missing availability info, invalid date ranges, unsupported fallback, follow-up context, LLM failure fallback, and a chat-to-availability integration path.
@@ -172,7 +174,7 @@ Suggested question chips make the first interaction easier and cover common hote
 - Availability uses static mock inventory, not date-by-date real inventory.
 - Natural-language date extraction is intentionally limited; the reliable path is the availability form.
 - No authentication, payments, booking hold, or PMS integration.
-- No persistent conversation storage.
+- Conversation persistence is browser-local only, not account-based or shared across devices.
 
 ## Production Improvements
 
